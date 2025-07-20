@@ -1,5 +1,5 @@
 
-## InterviwAI
+## InterviewAI
 
 ## 🚀 Features
 
