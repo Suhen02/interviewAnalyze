@@ -8,8 +8,8 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-insecure-default-secret-key-for-dev")
-DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true" 
+ALLOWED_HOSTS = ['your-render-app-name.onrender.com', 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,11 +50,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'interview_analyzer.wsgi.application'
-
+import dj_database_url
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'),conn_max_age=600)
     }
 }
 
@@ -72,6 +71,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
