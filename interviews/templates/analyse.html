@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Interview Performance Analyzer - Analysis</title>
+    <!-- Bootstrap CSS CDN -->
+     <link rel="stylesheet" href="{% static 'css/analyse.css' %}">
+     <link rel="stylesheet" href="{% static 'css/result.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+   <style> .spinner {
+  margin: 40px auto;
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ccc;
+  border-top: 6px solid #3f51b5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}</style>
+</head>
+<body>
+    
+    <div class="floating-particles" id="particles"></div>
+    <a href="{% url 'index' %}" class="back"><-back</a>
+    <div class="container">
+      
+        <div class="header">
+        
+            <div class="logo">🎯 InterviewAI</div>
+            <div class="subtitle">Advanced Video Interview Analysis Platform</div>
+        </div>
+ 
+        <div >
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+</script>
+<script src="{% static 'js/script.js' %}"></script>
+</html>

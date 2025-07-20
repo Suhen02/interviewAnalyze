@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; background-color: #fdeaea; color: #333; display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+        .container { max-width: 600px; background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; border: 1px solid #dc3545; }
+        h1 { color: #dc3545; margin-bottom: 25px; }
+        p { font-size: 1.1em; color: #555; }
+        .error-message { color: #dc3545; font-weight: bold; margin-top: 20px; }
+        a { text-decoration: none; color: #007bff; font-weight: bold; margin-top: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>An Error Occurred!</h1>
+        <p>We encountered an issue while processing your request.</p>
+        {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+        <a href="{% url 'index' %}">Go back to upload page</a>
+    </div>
+</body>
+</html>

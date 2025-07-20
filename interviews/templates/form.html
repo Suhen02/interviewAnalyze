@@ -1,0 +1,63 @@
+{% extends 'analyse.html' %}
+{% load static %}
+{% block content %}
+<form method="post" enctype="multipart/form-data" action="{% url 'initiate_analysis' %}">
+      {% csrf_token %}
+    
+   <div class="main-content">
+            <div class="card">
+                
+                <h2>
+                    <span class="icon">🎥</span>
+                    Record Interview
+                </h2>
+                <div class="record-section">
+                    <div class="video-preview">
+                        <video id="preview" autoplay muted></video>
+                        <div class="placeholder" id="placeholder">Click "Start Recording" to begin</div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn btn-primary" id="startRecord">
+                            <span class="status-indicator status-ready"></span>Start Recording
+                        </button>
+                        <button class="btn btn-danger" id="stopRecord" style="display: none;">
+                            <span class="status-indicator status-recording"></span>Stop Recording
+                        </button>
+                        <button class="btn btn-secondary" id="playRecord" style="display: none;">▶️ Play</button>
+                        <button class="btn btn-primary" id="analyzeRecord" style="display: none;" >🔍 Analyze</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>
+                    <span class="icon">📁</span>
+                    Upload Video
+                </h2>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">☁️</div>
+                    <div class="upload-text">Drag & Drop your video here</div>
+                    <div class="upload-subtext">or click to browse files</div>
+                    {{ form.video_file.label_tag }}
+                    {{ form.video_file }}
+                
+                </div>
+                <div class="file-info" id="fileInfo">
+                    <div id="fileName"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <button class="btn btn-primary" id="analyzeUpload" style="margin-top: 15px;">
+                        🔍 Analyze Video
+                    </button>
+                </div>
+            </div>
+           
+        </div>
+        <button class="btn btn-primary"  style="margin-top: 15px;" id="analyzeUpload" type="submit">
+                        🔍 Analyze Video
+                    </button>
+  </form>
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

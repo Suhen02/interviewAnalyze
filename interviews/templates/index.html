@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Interview Performance Analyzer - Home{% endblock %}
+
+
+{% block content %}
+<main class="main-content container">
+    
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Master Your Next Interview with <span class="highlight-text">AI-Powered</span> Preparation
+                    </h1>
+                    <p class="hero-subtitle">
+                        Get personalized feedback on your body language, speech patterns, and communication skills. Practice with confidence and land your dream job.
+                    </p>
+                    <a href="{% url 'form' %}" class="button">Upload NOW -></a>
+                </div>
+                <div class="hero-image">
+                    <div class="image">
+                        <img src="{% static 'images/R.avif' %}" alt="My Image">
+                      </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" id="about">
+      <div class="container">
+        
+          <div class="features-grid">
+              <div class="feature-card">
+                  <div class="feature-icon">🤖</div>
+                  <h3>Advanced AI Technology</h3>
+                  <p>Our cutting-edge AI analyzes your interview performance across multiple dimensions including speech patterns, body language, and content quality.</p>
+              </div>
+              <div class="feature-card">
+                  <div class="feature-icon">📊</div>
+                  <h3>Detailed Performance Metrics</h3>
+                  <p>Get comprehensive insights with scoring on communication skills, confidence levels, answer structure, and professional presence.</p>
+              </div>
+              <div class="feature-card">
+                  <div class="feature-icon">🎯</div>
+                  <h3>Personalized Recommendations</h3>
+                  <p>Receive tailored feedback and actionable suggestions to improve your interview performance and land your dream job.</p>
+              </div>
+              <div class="feature-card">
+                  <div class="feature-icon">📈</div>
+                  <h3>Progress Tracking</h3>
+                  <p>Monitor your improvement over time with detailed analytics and performance trends across multiple practice sessions.</p>
+              </div>
+              <div class="feature-card">
+                  <div class="feature-icon">🔒</div>
+                  <h3>Secure & Private</h3>
+                  <p>Your videos and data are completely secure with end-to-end encryption and privacy-first analysis processing.</p>
+              </div>
+              <div class="feature-card">
+                  <div class="feature-icon">⚡</div>
+                  <h3>Instant Results</h3>
+                  <p>Get your comprehensive analysis report within minutes of uploading your interview video.</p>
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <section class="how-it-works" id="how">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Upload Your Video</h3>
+                <p>Simply upload your mock interview video in any common format. Our platform supports all major video types.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>AI Analysis</h3>
+                <p>Our advanced AI analyzes your performance across verbal, non-verbal, and content dimensions in real-time.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Get Detailed Feedback</h3>
+                <p>Receive comprehensive insights with specific recommendations for improvement and performance scores.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Practice & Improve</h3>
+                <p>Apply the feedback, practice with our suggestions, and track your progress over multiple sessions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+{% endblock %} 

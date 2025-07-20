@@ -1,0 +1,59 @@
+{% extends 'analyse.html' %}
+{% load static %}
+
+
+        <!-- body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; background-color: #f4f7f6; color: #333; display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+        .container { max-width: 600px; background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #2c3e50; margin-bottom: 25px; }
+        
+        p { font-size: 1.1em; color: #555; }
+        .message { margin-top: 20px; font-weight: bold; color: #007bff; } -->
+{% block content %}
+    <div class="container">
+        <h1>Processing Your Interview Video...</h1>
+        <div class="spinner"></div>
+        <p>This may take a few moments. Please do not close this page.</p>
+        <p class="message" id="statusMessage">Checking analysis status...</p>
+    </div>
+
+    <script>
+        const sessionId = "{{ session_id }}";
+        const statusMessage = document.getElementById('statusMessage');
+        let pollInterval;
+
+        function checkStatus() {
+            fetch('/check_status/', { {# Updated URL #}
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'completed') {
+                    statusMessage.textContent = 'Analysis complete! Redirecting...';
+                    clearInterval(pollInterval);
+                    window.location.href = data.redirect_url;
+                } else if (data.status === 'processing') {
+                    statusMessage.textContent = 'Analysis still in progress...';
+                } else if (data.status === 'error' || data.status === 'failed') {
+                    statusMessage.textContent = `Analysis failed: ${data.message || 'Unknown error.'}`;
+                    clearInterval(pollInterval);
+                } else {
+                    statusMessage.textContent = `Current status: ${data.status}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error during polling:', error);
+                statusMessage.textContent = 'Error checking status. Please try again later.';
+                clearInterval(pollInterval);
+            });
+        }
+
+        pollInterval = setInterval(checkStatus, 3000);
+
+        window.addEventListener('beforeunload', function (e) {
+            clearInterval(pollInterval);
+        });
+    </script>
+{% endblock %}

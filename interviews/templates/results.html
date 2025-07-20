@@ -1,0 +1,146 @@
+{% extends 'analyse.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <h1>Analysis Report"</h1>
+
+        {% if interview_session.status != 'Analyzed' %}
+            <div class="section">
+                <h2>Report Not Ready</h2>
+                <p class="issue-list">The analysis for this session is not yet complete or has failed. Please check back later.</p>
+                <p><a href="{% url 'display_processing_screen' %}">Go to processing screen</a></p>
+            </div>
+        {% else %}
+            <div class="section">
+                <h2>Overall Summary</h2>
+                <p>{{ feedback.summary }}</p>
+            </div>
+
+            <div class="section">
+                <h2>Key Metrics</h2>
+                <div class="metric-box">
+                    <div class="metric-item">
+                        <strong>{{ feedback.metrics.overall_speech_clarity_percent|default:"N/A" }}{% if feedback.metrics.overall_speech_clarity_percent is not None %}%{% endif %}</strong>
+                        <span>Speech Clarity</span>
+                    </div>
+                    <div class="metric-item">
+                        <strong>{{ feedback.metrics.clarity_level }}</strong>
+                        <span>Clarity Level</span>
+                    </div>
+                    <div class="metric-item">
+                        <strong>{{ feedback.metrics.filler_word_count }}</strong>
+                        <span>Filler Words</span>
+                    </div>
+                    <div class="metric-item">
+                        <strong>{{ feedback.metrics.body_language_score_percent|default:"N/A" }}{% if feedback.metrics.body_language_score_percent is not None %}%{% endif %}</strong>
+                        <span>Body Language Score</span>
+                    </div>
+                    <div class="metric-item">
+                        <strong>{{ feedback.metrics.overall_sentiment }}</strong>
+                        <span>Overall Sentiment</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Areas for Improvement</h2>
+                {% if feedback.issues %}
+                    <ul class="issue-list">
+                        {% for issue in feedback.issues %}
+                            <li>
+                                <strong>{{ issue.type|capfirst }}:</strong>
+                                {% if issue.type == 'filler_word' %}
+                                    "{{ issue.word }}" at {{ issue.time }}s (Confidence: {{ issue.confidence }})
+                                {% elif issue.type == 'low_clarity_words' %}
+                                    {{ issue.message }}
+                                {% elif issue.type == 'posture' %}
+                                    Slouched posture detected around frame {{ issue.frame }}.
+                                {% else %}
+                                    {{ issue }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No specific issues highlighted!</p>
+                {% endif %}
+            </div>
+
+            <div class="section">
+                <h2>Actionable Tips</h2>
+                {% if feedback.tips %}
+                    <ul class="tip-list">
+                        {% for tip in feedback.tips %}
+                            <li>{{ tip }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="section">
+                <h2>Full Interview Transcript</h2>
+                <div class="transcript-box">
+                    <p>{{ interview_session.transcript|default:"Transcript not available." }}</p>
+                </div>
+            </div>
+
+            {% if interview_session.word_confidences_data %}
+            <div class="section">
+                <h2>Word-Level Confidence Details</h2>
+                <p>Review confidence scores for individual words. Lower scores may indicate unclear pronunciation or background noise.</p>
+                <div style="max-height: 200px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; border-radius: 5px;">
+                    <ul class="word-list">
+                        {% for word_data in interview_session.word_confidences_data %}
+                            <li>
+                                "{{ word_data.word }}" (Conf: <span {% if word_data.confidence < 0.7 %}class="low-confidence"{% endif %}>{{ word_data.confidence|floatformat:2 }}</span>) @ {{ word_data.start_time }}s
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if interview_session.chapters_data %}
+            <div class="section">
+                <h2>Auto-Generated Chapters</h2>
+                <ul>
+                    {% for chapter in interview_session.chapters_data %}
+                        <li><strong>{{ chapter.summary }}</strong> ({{ chapter.start|floatformat:2 }}s - {{ chapter.end|floatformat:2 }}s)</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if interview_session.entities_data %}
+            <div class="section">
+                <h2>Detected Entities</h2>
+                <p>Names, organizations, locations, etc., mentioned in the interview.</p>
+                <ul class="word-list">
+                    {% for entity in interview_session.entities_data %}
+                        <li>{{ entity.text }} (Type: {{ entity.entity_type }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if interview_session.sentiment_data %}
+            <div class="section">
+                <h2>Sentiment Breakdown</h2>
+                <p>Overall: <strong>{{ interview_session.sentiment_data.overall_sentiment }}</strong></p>
+                {% if interview_session.sentiment_data.breakdown %}
+                    <ul>
+                        <li>Positive Utterances: {{ interview_session.sentiment_data.breakdown.positive_utterances }}</li>
+                        <li>Negative Utterances: {{ interview_session.sentiment_data.breakdown.negative_utterances }}</li>
+                        <li>Neutral Utterances: {{ interview_session.sentiment_data.breakdown.neutral_utterances }}</li>
+                    </ul>
+                {% endif %}
+            </div>
+            {% endif %}
+
+        {% endif %}
+
+        <div class="back-link">
+            <a href="{% url 'index' %}">Analyze another interview</a>
+        </div>
+    </div>
+{% endblock %}
