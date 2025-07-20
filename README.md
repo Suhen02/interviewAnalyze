@@ -1,5 +1,5 @@
 
-
+## InterviwAI
 
 ## 🚀 Features
 
@@ -42,10 +42,6 @@
    
    ```
 
-4. Open your browser and visit:  
-   👉 [https://qjt56x5k-8000.inc1.devtunnels.ms/](https://qjt56x5k-8000.inc1.devtunnels.ms/)
-
----
 
 
 ## 🤝 Contributing
